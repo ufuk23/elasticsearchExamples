@@ -66,7 +66,9 @@ public class Application {
         dataMap.put("name", artifact.getName());
         final Double[] array = {11.3, 10.6, 23.0, 11.5, 10.4 };
         dataMap.put("feature", array);
-        final IndexRequest indexRequest = new IndexRequest(INDEX, TYPE, artifact.getId()).source(dataMap);
+        
+        IndexRequest indexRequest = new IndexRequest(INDEX).id(artifact.getId()).source(dataMap);
+        
         try {
             final IndexResponse response = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
         } catch (final ElasticsearchException e) {
@@ -82,7 +84,7 @@ public class Application {
         dataMap.put("id", artifact.getId());
         dataMap.put("name", artifact.getName());
         dataMap.put("vec", list);
-        final IndexRequest indexRequest = new IndexRequest(INDEX, TYPE, artifact.getId()).source(dataMap);
+        IndexRequest indexRequest = new IndexRequest(INDEX).id(artifact.getId()).source(dataMap);
         try {
             final IndexResponse response = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
         } catch (final ElasticsearchException e) {
@@ -94,7 +96,7 @@ public class Application {
     }
 
     private static Artifact getartifactById(final String id) {
-        final GetRequest getartifactRequest = new GetRequest(INDEX, TYPE, id);
+        final GetRequest getartifactRequest = new GetRequest(INDEX, id);
         GetResponse getResponse = null;
         try {
             getResponse = restHighLevelClient.get(getartifactRequest, RequestOptions.DEFAULT);
@@ -105,7 +107,7 @@ public class Application {
     }
 
     private static Artifact updateartifactById(final String id, final Artifact artifact) {
-        final UpdateRequest updateRequest = new UpdateRequest(INDEX, TYPE, id).fetchSource(true); // Fetch Object after its update
+        final UpdateRequest updateRequest = new UpdateRequest(INDEX, id).fetchSource(true); // Fetch Object after its update
         try {
             final String artifactJson = objectMapper.writeValueAsString(artifact);
             updateRequest.doc(artifactJson, XContentType.JSON);
@@ -121,7 +123,7 @@ public class Application {
     }
 
     private static void deleteartifactById(final String id) {
-        final DeleteRequest deleteRequest = new DeleteRequest(INDEX, TYPE, id);
+        final DeleteRequest deleteRequest = new DeleteRequest(INDEX, id);
         try {
             restHighLevelClient.delete(deleteRequest, RequestOptions.DEFAULT);
         } catch (final java.io.IOException e) {
@@ -144,12 +146,12 @@ public class Application {
 //            c += 1;
 //        }
         
-        for (int i = 0; i < 9220; i++) {
-            deleteartifactById("" + i);
-        }
+//        for (int i = 0; i < 9220; i++) {
+//            deleteartifactById("" + i);
+//        }
 
         final int index = 1;
-        int k = 0;
+        int k = 2000000;
         for (int i = index; i < 100000; i++) {
         	
             for (final Entry<String, List<Double>> entry : vectorMap.mapDouble.entrySet()) {

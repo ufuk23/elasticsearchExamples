@@ -1,5 +1,5 @@
 // Creating a new index and properties
-http://localhost:9200/     art PUT
+http://localhost:9200/art PUT
 
 {
   "mappings": {
@@ -16,7 +16,7 @@ http://localhost:9200/     art PUT
 }
 
 
-// QUERY: http://localhost:9200/    art/_search (***POST***)
+// QUERY: http://localhost:9200/art/_search (***POST***)
 
 {
   "size" : 5,
