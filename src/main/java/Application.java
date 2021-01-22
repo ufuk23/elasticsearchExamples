@@ -1,6 +1,5 @@
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,7 @@ public class Application {
 
     // The config parameters for the connection
     public static final Random         rand         = new Random();
-    private static final String        HOST         = "localhost";
+    private static final String        HOST         = "10.1.37.52";
     private static final int           PORT_ONE     = 9200;
     private static final int           PORT_TWO     = 9201;
     private static final String        SCHEME       = "http";
@@ -39,7 +38,7 @@ public class Application {
 
     private static final String        INDEX        = "art";
     private static final String        TYPE         = "_doc";
-    
+
     /**
      * Implemented Singleton pattern here so that there is just one connection at a time.
      * 
@@ -64,8 +63,8 @@ public class Application {
         final Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("id", artifact.getId());
         dataMap.put("name", artifact.getName());
-        final Double[] array = {11.3, 10.6, 23.0, 11.5, 10.4 };
-        dataMap.put("feature", array);
+        final Double[] array = { 11.3, 10.6, 23.0, 11.5, 10.4 };
+        dataMap.put("vec", array);
         final IndexRequest indexRequest = new IndexRequest(INDEX, TYPE, artifact.getId()).source(dataMap);
         try {
             final IndexResponse response = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
@@ -135,37 +134,37 @@ public class Application {
         final VectorMap vectorMap = new VectorMap();
         vectorMap.createDataList();
 
-//        int c = 0;
-//        for (final Entry<String, List<Double>> entry : vectorMap.mapDouble.entrySet()) {
-//            final artifact artifact = new artifact();
-//            artifact.setId("" + c);
-//            artifact.setName(entry.getKey());
-//            insertartifact(artifact, entry.getValue());
-//            c += 1;
-//        }
-        
-        for (int i = 0; i < 9220; i++) {
-            deleteartifactById("" + i);
-        }
+        // int c = 0;
+        // for (final Entry<String, List<Double>> entry : vectorMap.mapDouble.entrySet()) {
+        // final artifact artifact = new artifact();
+        // artifact.setId("" + c);
+        // artifact.setName(entry.getKey());
+        // insertartifact(artifact, entry.getValue());
+        // c += 1;
+        // }
+
+        // for (int i = 0; i < 9220; i++) {
+        // deleteartifactById("" + i);
+        // }
 
         final int index = 1;
         int k = 0;
         for (int i = index; i < 100000; i++) {
-        	
+
             for (final Entry<String, List<Double>> entry : vectorMap.mapDouble.entrySet()) {
                 final Artifact artifact = new Artifact();
                 artifact.setId("" + k);
                 artifact.setName(entry.getKey());
-                
-                int randIndex = rand.nextInt(entry.getValue().size());
-                List<Double> list = entry.getValue();
-                Double newVal = list.get(randIndex) + Double.valueOf(0.01);
+
+                final int randIndex = rand.nextInt(entry.getValue().size());
+                final List<Double> list = entry.getValue();
+                final Double newVal = list.get(randIndex) + Double.valueOf(0.01);
                 list.set(randIndex, newVal);
                 Application.insertartifact(artifact, list);
                 System.out.println(entry.getKey() + " - " + k);
                 k += 1;
             }
-        	
+
         }
 
         // artifact artifact = new artifact();
