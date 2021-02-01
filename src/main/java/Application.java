@@ -37,8 +37,7 @@ public class Application {
     private static RestHighLevelClient restHighLevelClient;
     private static ObjectMapper        objectMapper = new ObjectMapper();
 
-    private static final String        INDEX        = "art";
-    private static final String        TYPE         = "_doc";
+    private static final String        INDEX        = "art8";
     
     /**
      * Implemented Singleton pattern here so that there is just one connection at a time.
@@ -151,7 +150,7 @@ public class Application {
 //        }
 
         final int index = 1;
-        int k = 2000000;
+        int k = 0;
         for (int i = index; i < 100000; i++) {
         	
             for (final Entry<String, List<Double>> entry : vectorMap.mapDouble.entrySet()) {
