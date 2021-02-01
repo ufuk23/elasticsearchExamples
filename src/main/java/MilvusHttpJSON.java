@@ -100,7 +100,6 @@ public class MilvusHttpJSON {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
