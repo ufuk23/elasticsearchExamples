@@ -15,6 +15,7 @@ import java.util.Random;
 public class MilvusHttpJSON {
 
 	public static void main(String[] args) {
+		
 		try {
 			final VectorMap vectorMap = new VectorMap();
 			vectorMap.createDataList();
