@@ -1,0 +1,54 @@
+MILVUS docker
+
+docker run -d --name milvus_cpu_0.10.5 -p 19530:19530 -p 19121:19121 -v c:\volumes\milvus\db:/var/lib/milvus/db -v c:\volumes\milvus\conf:/var/lib/milvus/conf -v c:\volumes\milvus\logs:/var/lib/milvus/logs -v c:\volumes\milvus\wal:/var/lib/milvus/wal milvusdb/milvus:0.10.5-cpu-d010621-4eda95
+
+
+STATE
+
+GET http://localhost:19121/state
+http://localhost:19121/collections
+
+
+DELETE COLLECTION
+
+DELETE http://localhost:19121/collections/test
+
+
+
+CREATE COLLECTION
+
+POST http://localhost:19121/collections
+{
+  "collection_name": "art",
+  "dimension": 1000
+}
+
+
+CREATE INDEX
+POST http://localhost:19121/collections/art/indexes
+{
+  "index_type": "IVF_SQ8"
+}
+
+
+CREATE
+
+POST http://localhost:19121/collections/test/vectors
+{
+  "vectors": [[0,0,1], [1,0,0], [0,1,0], [0.01,0,0], [0,0,0.01], [1,0.02,0], [1,0,0.2], [0,0.01,0.03], [0,0,0.04]],
+  "ids": ["10","11","12", "13","14","15", "16","17","18"]
+}
+
+
+
+SEARCH
+
+PUT http://localhost:19121/collections/test/vectors
+{
+  "search": {
+      "topk": 3,
+      "vectors": [[0.2,0.3,0.1]],
+      "params": {"nprobe": 16}
+  }
+}
+
